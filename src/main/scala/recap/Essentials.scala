@@ -5,7 +5,7 @@ import java.util.concurrent.Executors
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
-class Essentials {
+object Essentials {
 
   // values
   val aBoolean: Boolean = false // immutable
