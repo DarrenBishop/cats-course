@@ -57,12 +57,14 @@ hs_err_pid*
 # Simple Build Tool
 # http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
 
-dist/*
-target/
-lib_managed/
-src_managed/
+.bloop/
+.bsp/
 project/boot/
 project/plugins/project/
+target
+dist/*
+lib_managed/
+src_managed/
 .history
 .cache
 .lib/
