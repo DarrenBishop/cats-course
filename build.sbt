@@ -32,8 +32,12 @@ lazy val scalacOptionsTask = Def.task { CrossVersion.partialVersion(scalaVersion
 lazy val `cats-course` = (project in file("."))
   .settings(publish / skip := true)
   .aggregate(
-    `m1-introduction`
+    `m1-introduction`,
+    `m2-abstract-math`
   )
 
 lazy val `m1-introduction` = project
+  .settings(scalacOptions ++= scalacOptionsTask.value)
+
+lazy val `m2-abstract-math` = project
   .settings(scalacOptions ++= scalacOptionsTask.value)
