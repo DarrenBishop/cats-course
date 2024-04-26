@@ -14,3 +14,5 @@ libraryDependencies ++= Seq(
 )
 
 addCompilerPlugin("org.scalamacros" % "paradise" % Versions.Compiler.Paradise cross CrossVersion.full)
+
+addSbtPlugin("org.scalameta" % "sbt-mdoc" % Versions.Sbt.Mdoc)

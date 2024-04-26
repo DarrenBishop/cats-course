@@ -18,7 +18,11 @@ ThisBuild / scalacOptions ++= Seq(
 ThisBuild / fork := true
 
 ThisBuild / libraryDependencies ++= Seq(
-  "org.typelevel" %% "cats-core" % Versions.TypeLevel.Cats,
+  "org.typelevel" %% "cats-core"  % Versions.TypeLevel.Cats,
+  "org.typelevel" %% "simulacrum" % Versions.TypeLevel.Simulacrum,
+
+  "eu.timepit"  %% "refined" % Versions.TypeLevel.Refined,
+  "io.estatico" %% "newtype" % Versions.TypeLevel.Newtype,
 )
 
 lazy val scalacOptionsTask = Def.task { CrossVersion.partialVersion(scalaVersion.value) match {
@@ -33,11 +37,29 @@ lazy val `cats-course` = (project in file("."))
   .settings(publish / skip := true)
   .aggregate(
     `m1-introduction`,
-    `m2-abstract-math`
+    `m2-abstract-math`,
+    `m3-data-manipulation`,
+    `cats-course-docs`
   )
 
 lazy val `m1-introduction` = project
   .settings(scalacOptions ++= scalacOptionsTask.value)
 
 lazy val `m2-abstract-math` = project
+  .enablePlugins(MdocPlugin, DocusaurusPlugin)
+  .settings(
+    moduleName := "m2-abstract-math-docs",
+    scalacOptions ++= scalacOptionsTask.value
+  )
+
+lazy val `m3-data-manipulation` = project
   .settings(scalacOptions ++= scalacOptionsTask.value)
+
+lazy val `cats-course-docs` = project
+  .enablePlugins(MdocPlugin)
+  .dependsOn(`m1-introduction`, `m2-abstract-math`, `m3-data-manipulation`)
+  .settings(
+    moduleName := "cats-course-docs",
+    scalacOptions ++= scalacOptionsTask.value,
+    mdocIn := (`m2-abstract-math` / baseDirectory).value / "docs"
+  )

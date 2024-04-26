@@ -3,7 +3,7 @@
 ## Higher-kinded type class that provides:
  - a `pure` method to wrap (lift) a normal value into a monadic value
  - a `flatMap` method to transform monadic values in sequence
-```scala
+```scala mdoc
 import cats.Monad
 //import cats.instances.option._
 
@@ -18,27 +18,28 @@ val aTransformedOption = optionMonad.flatMap(anOption) { x =>
  - `Monad` extends `Functor`
 
 ## Extension methods are in other packages
-```scala
+```scala mdoc
 import cats.syntax.applicative._ // adds the pure extension method
-val oneValid = 1.pure[ErrorOr] // returns Valid(1)
+type ErrorOr[A] = Either[String, A]
+val oneValid = 1.pure[ErrorOr] // returns Right(1)
 ```
 
-```scala
+```scala mdoc
 import cats.syntax.functor._ // adds the map extension method
-val twoValid = oneValid.map(_ + 1) // returns Valid(2)
+val twoValid = oneValid.map(_ + 1) // returns Right(2)
 ```
 
-```scala
-import cats.syntax.flatMap._ // adds the flatMap extension method
-val transformedValid = twoValid.flatMap(x => (x + 1).pure[ErrorOr]) // returns Valid(3)
+```scala mdoc
+import cats.syntax.monad._ // adds the flatMap extension method
+val transformedValid = twoValid.flatMap(x => (x + 1).pure[ErrorOr]) // returns Right(3)
 ```
 
 ## `map` + `flatMap` = for-comprehension
-```scala
+```scala mdoc
 val composedErrorOr = for {
   one <- oneValid
   two <- twoValid
-} yield one + two // returns Valid(3)
+} yield one + two // returns Right(3)
 ```
 
 ## Use cases: dependent (sequential) transformations
@@ -57,7 +58,9 @@ val composedErrorOr = for {
 
 <div style="text-align:left; width:50%; margin:auto;">
 
-```scala
+```scala mdoc
+import cats.syntax.flatMap._ // adds the flatMap extension method
+import cats.syntax.functor._ // adds the map extension method
 def getPairs[M[_]: Monad, A, B](ma: M[A], mb: M[B]): M[(A, B)] = for {
   a <- ma
   b <- mb
