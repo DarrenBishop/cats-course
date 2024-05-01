@@ -27,9 +27,15 @@ package object ec {
   }
 
   trait Types {
+    type ShutdownHook = Context.ShutdownHook
+
     type EC = Context
     val EC: Context.type = Context
-    type ShutdownHook = Context.ShutdownHook
+
+    type Future[+A] = scala.concurrent.Future[A]
+    val Future: scala.concurrent.Future.type = scala.concurrent.Future
+
+    val Await: scala.concurrent.Await.type = scala.concurrent.Await
   }
 
   trait Syntax extends Types {

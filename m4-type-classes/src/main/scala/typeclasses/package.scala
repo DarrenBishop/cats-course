@@ -1,3 +1,5 @@
+import cats.Monoid
+
 package object typeclasses extends ec.Syntax { pkg =>
 
   def !!![T]: T = ???
@@ -27,4 +29,7 @@ package object typeclasses extends ec.Syntax { pkg =>
 
   // List support
   def nil[E] = List.empty[E]
+
+  // Support for emptiness via Monoid
+  def empty[T: Monoid]: T = Monoid[T].empty
 }

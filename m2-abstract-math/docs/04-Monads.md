@@ -1,21 +1,22 @@
 # Monads
 
 ## Higher-kinded type class that provides:
- - a `pure` method to wrap (lift) a normal value into a monadic value
+ - a `pure` method to wrap (lift) a normal value into a contextual value, via `Applicative`
  - a `flatMap` method to transform monadic values in sequence
-```scala mdoc
-import cats.Monad
-//import cats.instances.option._
+   ```scala mdoc
+   import cats.Monad
+   //import cats.instances.option._
+   
+   val optionMonad = Monad[Option] // fetches the implicit instance
+   val anOption = optionMonad.pure(2) // returns an Option[Int]
+   val aTransformedOption = optionMonad.flatMap(anOption) { x =>
+     if (x % 2 == 0) Option(x + 1) else None
+   } // returns Some(3)
+   ```
 
-val optionMonad = Monad[Option] // fetches the implicit instance
-val anOption = optionMonad.pure(2) // returns an Option[Int]
-val aTransformedOption = optionMonad.flatMap(anOption) { x =>
-  if (x % 2 == 0) Option(x + 1) else None
-} // returns Some(3)
-```
-
-## Can implement map in terms of `pure` and `flatMap`
+## Can implement `map` in terms of `pure` and `flatMap`
  - `Monad` extends `Functor`
+ - Spoiler: `Monad` also extends `Applicative`; covered later
 
 ## Extension methods are in other packages
 ```scala mdoc
