@@ -18,6 +18,8 @@ ThisBuild / scalacOptions ++= Seq(
 ThisBuild / fork := true
 
 ThisBuild / libraryDependencies ++= Seq(
+  compilerPlugin("org.typelevel" % "kind-projector" % Versions.Compiler.KindProjector cross CrossVersion.full),
+
   "org.typelevel" %% "cats-core"  % Versions.TypeLevel.Cats,
   "org.typelevel" %% "simulacrum" % Versions.TypeLevel.Simulacrum,
 
@@ -34,11 +36,13 @@ lazy val scalacOptionsTask = Def.task { CrossVersion.partialVersion(scalaVersion
 }}
 
 lazy val `cats-course` = (project in file("."))
+  .enablePlugins(MdocPlugin)
   .settings(publish / skip := true)
   .aggregate(
     `m1-introduction`,
     `m2-abstract-math`,
     `m3-data-manipulation`,
+    `m4-type-classes`,
     `cats-course-docs`
   )
 
@@ -54,6 +58,13 @@ lazy val `m2-abstract-math` = project
 
 lazy val `m3-data-manipulation` = project
   .settings(scalacOptions ++= scalacOptionsTask.value)
+
+lazy val `m4-type-classes` = project
+  .dependsOn(`m2-abstract-math`)
+  .settings(
+    scalacOptions ++= scalacOptionsTask.value,
+    scalacOptions += "-P:kind-projector:underscore-placeholders"
+  )
 
 lazy val `cats-course-docs` = project
   .enablePlugins(MdocPlugin)
