@@ -12,4 +12,5 @@ flowchart BT
     A --> AP
     AP --> F(Functor)
     AP --> SL(Semigroupal)
+    FO(Foldable)
 ```

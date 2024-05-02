@@ -9,7 +9,7 @@ object Applicatives {
   val listApplicative = Applicative[List]
   val aList = listApplicative.pure(2) // List(2)
 
-  def runList(): Unit = {
+  def runList: Unit = {
     println(listApplicative)
     println(aList)
     println()
@@ -19,7 +19,7 @@ object Applicatives {
   val optionApplicative = Applicative[Option]
   val anOption = optionApplicative.pure(2) // Some(2)
 
-  def runOption(): Unit = {
+  def runOption: Unit = {
     println(optionApplicative)
     println(anOption)
     println()
@@ -36,7 +36,7 @@ object Applicatives {
   val aSweetOption = 2.pure[Option] // Some(2)
   val aSweetEither: Either[String, Int] = 123.pure[Either[String, _]] // Right(123)
 
-  def runExtensionMethods(): Unit = {
+  def runExtensionMethods: Unit = {
     println(aSweetList)
     println(aSweetOption)
     println(aSweetEither)
@@ -68,7 +68,7 @@ object Applicatives {
 
   implicit val ec: EC = EC()
 
-  def runTodo(): Unit = {
+  def runTodo: Unit = {
     println(productWithApplicative(Option(123), Option("a string")))
     println(productWithApplicative(Option(123), None))
     println(Await.result(productWithApplicative(Future("the meaning of life"), Future(42)), 1.second))
@@ -76,7 +76,7 @@ object Applicatives {
     println()
   }
 
-  def runValidated(): Unit = {
+  def runValidated: Unit = {
     println(aValidValue)
     println(anotherValidValue)
     println(s"Applicative.pure vs smart-constructor are ${if (aValidValue == anotherValidValue) "the same" else "borked!"}")
@@ -84,15 +84,15 @@ object Applicatives {
   }
 
   def main(args: Array[String]): Unit = {
-    runList()
+    runList
 
-    runOption()
+    runOption
 
-    runExtensionMethods()
+    runExtensionMethods
 
-    runValidated()
+    runValidated
 
-    runTodo()
+    runTodo
 
     ec.shutdown()
   }
