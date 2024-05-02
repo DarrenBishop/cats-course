@@ -28,9 +28,19 @@ package object ec {
     }
   }
 
+  abstract class ContextApp { _: Singleton =>
+    implicit protected val ec: Context = Context()
+
+    def main(args: Array[String]): Unit = {
+      ec.shutdown()
+    }
+  }
+
   trait Types {
     type EC = Context
     val EC: Context.type = Context
+
+    type ECApp = ContextApp
 
     type Future[+A] = scala.concurrent.Future[A]
     val Future: scala.concurrent.Future.type = scala.concurrent.Future
