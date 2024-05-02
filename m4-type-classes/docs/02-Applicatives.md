@@ -3,6 +3,10 @@
 ## Higher-kinded type class that extends `Functor` and provides a `pure` method
  - a `pure` method to wrap (lift) a normal value into a contextual value
    ```scala mdoc
+   def pure[A](value: A): F[A]
+   ```
+   e.g.
+   ```scala mdoc
    import cats.Applicative
    //import cats.instances.list._ // implicit Applicative[List]
    val listApplicative = Applicative[List]

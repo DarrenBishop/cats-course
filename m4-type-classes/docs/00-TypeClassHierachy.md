@@ -3,8 +3,8 @@
 ```mermaid
 flowchart BT
     MO(Monoid) --> S(Semigroup)
-    A(Applicative)
-    A --> F(Functor)
-    A --> SL(Semigroupal)
+    A(Applicative) --> Ap(Apply)
+    Ap --> F(Functor)
+    Ap --> SL(Semigroupal)
     MA(Monad) --> A
 ```
