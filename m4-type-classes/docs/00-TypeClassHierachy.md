@@ -2,10 +2,13 @@
 
 ```mermaid
 flowchart BT
-    MO(Monoid) --> S(Semigroup)
-    MA(Monad) --> FM(FlatMap)
+    MD(Monoid) --> S(Semigroup)
+    ME(MonadError) --> M(Monad)
+    ME --> AE(ApplicativeError)
+    M --> FM(FlatMap)
     FM --> AP(Apply)
-    MA --> A(Applicative)
+    M --> A(Applicative)
+    AE --> A
     A --> AP
     AP --> F(Functor)
     AP --> SL(Semigroupal)
