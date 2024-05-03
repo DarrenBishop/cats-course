@@ -7,14 +7,20 @@ flowchart BT
     MD("`**Monoid**
     _empty_`")
     MD --> S
+    I("`**Invariant**
+    _imap_`")
+    C("`**Contravariant**
+    _contramap_`")
+    C --> I
+    F("`**Functor**
+    _map_`")
+    F ---> I
     FO("`**Foldable**
     _foldLeft_
     _foldRight_`")
     T("`**Traverse**
     _traverse_
     _sequence_`")
-    F("`**Functor**
-    _map_`")
     T --> FO
     T --> F
     SL("`**Semigroupal**
@@ -38,6 +44,6 @@ flowchart BT
     M --> A
     ME("`**MonadError**
     _ensure_`")
-    ME ---> M
+    ME --> M
     ME --> AE
 ```
