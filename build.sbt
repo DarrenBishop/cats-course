@@ -43,6 +43,7 @@ lazy val `cats-course` = (project in file("."))
     `m2-abstract-math`,
     `m3-data-manipulation`,
     `m4-type-classes`,
+    `m5-some-alien-bits`,
     `cats-course-docs`
   )
 
@@ -66,9 +67,16 @@ lazy val `m4-type-classes` = project
     scalacOptions += "-P:kind-projector:underscore-placeholders"
   )
 
+lazy val `m5-some-alien-bits` = project
+  .dependsOn(`m2-abstract-math`)
+  .settings(
+    scalacOptions ++= scalacOptionsTask.value,
+    scalacOptions += "-P:kind-projector:underscore-placeholders"
+  )
+
 lazy val `cats-course-docs` = project
   .enablePlugins(MdocPlugin)
-  .dependsOn(`m1-introduction`, `m2-abstract-math`, `m3-data-manipulation`)
+  .dependsOn(`m1-introduction`, `m2-abstract-math`, `m3-data-manipulation`, `m4-type-classes`, `m5-some-alien-bits`)
   .settings(
     moduleName := "cats-course-docs",
     scalacOptions ++= scalacOptionsTask.value,
