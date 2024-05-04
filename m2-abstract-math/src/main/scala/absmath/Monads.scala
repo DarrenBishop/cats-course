@@ -45,7 +45,7 @@ object Monads {
     c <- charFuture
   } yield (n, c)
 
-  val futureCombinationSequence = Future.sequence(List(numberFuture, charFuture)).map {
+  val futureCombinationSequence = Future.sequence(List(numberFuture, charFuture)).collect {
     case List(n, c) => (n, c)
   }
   val futureCombinationOnComplete = numberFuture.flatMap { n => charFuture.map { c => (n, c) } }

@@ -19,29 +19,29 @@
  - Spoiler: `Monad` also extends `Applicative`; covered later
 
 ## Extension methods are in other packages
-```scala mdoc
-import cats.syntax.applicative._ // adds the pure extension method
-type ErrorOr[A] = Either[String, A]
-val oneValid = 1.pure[ErrorOr] // returns Right(1)
-```
+   ```scala mdoc
+   import cats.syntax.applicative._ // adds the pure extension method
+   type ErrorOr[A] = Either[String, A]
+   val oneValid = 1.pure[ErrorOr] // returns Right(1)
+   ```
 
-```scala mdoc
-import cats.syntax.functor._ // adds the map extension method
-val twoValid = oneValid.map(_ + 1) // returns Right(2)
-```
+   ```scala mdoc
+   import cats.syntax.functor._ // adds the map extension method
+   val twoValid = oneValid.map(_ + 1) // returns Right(2)
+   ```
 
-```scala mdoc
-import cats.syntax.monad._ // adds the flatMap extension method
-val transformedValid = twoValid.flatMap(x => (x + 1).pure[ErrorOr]) // returns Right(3)
-```
+   ```scala mdoc
+   import cats.syntax.monad._ // adds the flatMap extension method
+   val transformedValid = twoValid.flatMap(x => (x + 1).pure[ErrorOr]) // returns Right(3)
+   ```
 
 ## `map` + `flatMap` = for-comprehension
-```scala mdoc
-val composedErrorOr = for {
-  one <- oneValid
-  two <- twoValid
-} yield one + two // returns Right(3)
-```
+   ```scala mdoc
+   val composedErrorOr = for {
+     one <- oneValid
+     two <- twoValid
+   } yield one + two // returns Right(3)
+   ```
 
 ## Use cases: dependent (sequential) transformations
  - list combinations
@@ -59,12 +59,12 @@ val composedErrorOr = for {
 
 <div style="text-align:left; width:50%; margin:auto;">
 
-```scala mdoc
-import cats.syntax.flatMap._ // adds the flatMap extension method
-import cats.syntax.functor._ // adds the map extension method
-def getPairs[M[_]: Monad, A, B](ma: M[A], mb: M[B]): M[(A, B)] = for {
-  a <- ma
-  b <- mb
-} yield (a, b)
-```
+   ```scala mdoc
+   import cats.syntax.flatMap._ // adds the flatMap extension method
+   import cats.syntax.functor._ // adds the map extension method
+   def getPairs[M[_]: Monad, A, B](ma: M[A], mb: M[B]): M[(A, B)] = for {
+     a <- ma
+     b <- mb
+   } yield (a, b)
+   ```
 </div>

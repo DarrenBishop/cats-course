@@ -14,14 +14,14 @@
    ```
 
 ## Convenient for extracting and combining tuples
-```scala mdoc
-import cats.syntax.apply._ // extension methods from Apply
-val tupleOfOptions = (Option(1), Option(2), Option(3))
-val optionOfTuple = tupleOfOptions.tupled
-val sumOption = tupleOfOptions.mapN(_ + _ + _)
-val anotherTupleOfOptions = (Option(1), Option(2), none[Int])
-val multiplyOption = anotherTupleOfOptions.mapN(_ * _ * _)
-```
+   ```scala mdoc
+   import cats.syntax.apply._ // extension methods from Apply
+   val tupleOfOptions = (Option(1), Option(2), Option(3))
+   val optionOfTuple = tupleOfOptions.tupled
+   val sumOption = tupleOfOptions.mapN(_ + _ + _)
+   val anotherTupleOfOptions = (Option(1), Option(2), none[Int])
+   val multiplyOption = anotherTupleOfOptions.mapN(_ * _ * _)
+   ```
 
 ## Use cases: Validation completion
 - Use `mapN` over the tuple of `Validated` values to construct something in the success case

@@ -1,6 +1,5 @@
 package typeclasses
 
-import scala.concurrent.{Await, Future}
 import cats.Monad
 
 import absmath.Monads.MyMonad

@@ -36,22 +36,27 @@ lazy val scalacOptionsTask = Def.task { CrossVersion.partialVersion(scalaVersion
 }}
 
 lazy val `cats-course` = (project in file("."))
-  .enablePlugins(MdocPlugin)
-  .settings(publish / skip := true)
+  .disablePlugins(MdocPlugin, Mdoc)
+  .settings(
+    publish / skip := true,
+    mdoc := {()}
+  )
   .aggregate(
     `m1-introduction`,
     `m2-abstract-math`,
     `m3-data-manipulation`,
     `m4-type-classes`,
     `m5-some-alien-bits`,
-    `cats-course-docs`
+    docs
   )
 
 lazy val `m1-introduction` = project
-  .settings(scalacOptions ++= scalacOptionsTask.value)
+  .settings(
+    scalacOptions ++= scalacOptionsTask.value,
+    mdoc := {()}
+  )
 
 lazy val `m2-abstract-math` = project
-  .enablePlugins(MdocPlugin, DocusaurusPlugin)
   .settings(
     moduleName := "m2-abstract-math-docs",
     scalacOptions ++= scalacOptionsTask.value
@@ -74,11 +79,18 @@ lazy val `m5-some-alien-bits` = project
     scalacOptions += "-P:kind-projector:underscore-placeholders"
   )
 
-lazy val `cats-course-docs` = project
-  .enablePlugins(MdocPlugin)
+lazy val docs = (project in file("cats-course-docs"))
   .dependsOn(`m1-introduction`, `m2-abstract-math`, `m3-data-manipulation`, `m4-type-classes`, `m5-some-alien-bits`)
   .settings(
-    moduleName := "cats-course-docs",
     scalacOptions ++= scalacOptionsTask.value,
-    mdocIn := (`m2-abstract-math` / baseDirectory).value / "docs"
+    //mdocExtraArguments := Seq(
+    //  "--watch",
+    //  "--verbose true",
+    //  "--report-relative-paths",
+    //  "--clean-target true",
+    //  "--allow-code-fence-indented",
+    //  "--exclude **/.DS_Store",
+    //  "--exclude .DS_Store"
+    //),
+    mdocRoot := (ThisBuild / baseDirectory).value
   )

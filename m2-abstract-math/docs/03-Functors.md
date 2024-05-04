@@ -19,14 +19,14 @@
    ```
 
 ## Useful for general API
-```scala mdoc
-def do10x[F[_]](fi: F[Int])(implicit functor: Functor[F]): F[Int] = functor.map(fi)(_ * 10)
-```
+   ```scala mdoc
+   def do10x[F[_]](fi: F[Int])(implicit functor: Functor[F]): F[Int] = functor.map(fi)(_ * 10)
+   ```
 or
-```scala mdoc
-import cats.syntax.functor._ // adds the map extension method
-def do10xShort[F[_]: Functor](fi: F[Int]): F[Int] = fi.map(_ * 10)
-```
+   ```scala mdoc
+   import cats.syntax.functor._ // adds the map extension method
+   def do10xShort[F[_]: Functor](fi: F[Int]): F[Int] = fi.map(_ * 10)
+   ```
 
 ## Use cases: data structures meant to be transformed in sequence
  - specialized data structures for high-performance algorithms

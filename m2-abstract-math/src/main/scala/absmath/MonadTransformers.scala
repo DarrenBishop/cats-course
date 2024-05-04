@@ -74,6 +74,7 @@ object MonadTransformers {
 
     bandwidths.keys.toList.combinations(2).foreach {
       case List(s1, s2) => println(Await.ready(generateTrafficSpikeReport(s1, s2).value, 1.second))
+      case _ =>
     }
 
     executorService.shutdown()
