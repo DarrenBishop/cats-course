@@ -70,6 +70,11 @@ package object ec {
   trait API { _: Types with Implicits =>
     def shutdownAll(): Unit = Context.shutdownAll()
 
+    def ready[R](fR: Future[R])(implicit duration: FiniteDuration): Future[R] =
+      Await.ready(fR, duration)
+
+    def result[R](fR: Future[R])(implicit duration: FiniteDuration): R =
+      Await.result(fR, duration)
 
     def runAsyncF[R](af: EC => Future[R])(implicit duration: FiniteDuration): Future[R] = {
       val ec = EC()

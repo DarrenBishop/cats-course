@@ -39,7 +39,7 @@ lazy val `cats-course` = (project in file("."))
   .disablePlugins(MdocPlugin, Mdoc)
   .settings(
     publish / skip := true,
-    mdoc := {()}
+    //mdoc / aggregate := false,
   )
   .aggregate(
     `m1-introduction`,
@@ -52,11 +52,11 @@ lazy val `cats-course` = (project in file("."))
 
 lazy val `m1-introduction` = project
   .settings(
-    scalacOptions ++= scalacOptionsTask.value,
-    mdoc := {()}
+    scalacOptions ++= scalacOptionsTask.value
   )
 
 lazy val `m2-abstract-math` = project
+  .enablePlugins(MdocPlugin)
   .settings(
     moduleName := "m2-abstract-math-docs",
     scalacOptions ++= scalacOptionsTask.value

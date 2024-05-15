@@ -2,7 +2,7 @@
 
 ## Higher-kinded type class that can tuple elements; provides a `product` method:
  - a `product` method over two values of the same type and preserving that type
-   ```scala mdoc
+   ```scala
    def product[A, B](tuple: (F[A], F[B])): F[(A, B)]
    ```
    e.g.

@@ -34,14 +34,15 @@ object Mdoc extends AutoPlugin {
 
   import autoImport.*
 
-  def isRootDocs = Def.setting {
-    val rootDir = (LocalRootProject / baseDirectory).value
+  def isProjectRoot: Def.Initialize[Boolean] =
+    name.zipWith(LocalRootProject / name)(_ == _)
+
+  def isProjectRootDocs: Def.Initialize[Boolean] = Def.setting {
     val rootBase = (LocalRootProject / baseDirectory).value.getName
     val rootName = (LocalRootProject / name).value
+    val names = Set(s"$rootBase-docs", s"$rootName-docs")
 
-    val thisBase = baseDirectory.value.getName
-    val docsName = s"$rootBase-docs"
-    name.value == docsName || thisBase == docsName
+    names(name.value) || names(baseDirectory.value.getName)
   }
 
   override def projectSettings: Settings =
@@ -49,11 +50,11 @@ object Mdoc extends AutoPlugin {
     //DocusaurusPlugin.projectSettings ++
     Seq(
       mdocIn := {
-        if (isRootDocs.value) (LocalRootProject / baseDirectory).value / "docs"
+        if (isProjectRootDocs.value) (LocalRootProject / baseDirectory).value / "docs"
         else baseDirectory.value / "docs"
       },
       //mdocOut := {
-      //  if (isRootDocs.value) (LocalRootProject / baseDirectory).value / "mdoc"
+      //  if (isProjectRootDocs.value) (LocalRootProject / baseDirectory).value / "mdoc"
       //  else baseDirectory.value / "mdoc"
       //},
       mdocVariables := Map(
@@ -63,10 +64,17 @@ object Mdoc extends AutoPlugin {
       mdocExtraArguments ++= Seq(
         "--verbose true",
         "--clean-target true",
-        //"--allow-code-fence-indented",
+        "--allow-code-fence-indented",
         "--exclude **/.DS_Store",
         "--exclude .DS_Store",
       ),
+      //mdoc := Def.inputTaskDyn {
+      //  if (name.value == "m1-introduction") Def.task {
+      //    streams.value.log.warn("This is the root project; no mdoc allowed!")
+      //    ()
+      //  }
+      //  else Def.taskDyn { mdoc.toTask("") }
+      //}.evaluated,
       //mdocExtraArguments ++= {
       //  if (mdocRoot.?.value.isDefined)
       //    Seq(
@@ -75,20 +83,6 @@ object Mdoc extends AutoPlugin {
       //    )
       //  else Nil
       //},
-      //mdocIn := baseDirectory.value / "docs",
-      //mdoc := Def.inputTask {
-      //  val parsed = sbt.complete.DefaultParsers.spaceDelimited("<arg>").parsed
-      //  println(parsed.mkString(" "))
-      //  println(mdocIn.value.toString)
-      //  mdoc.toTask(parsed.mkString(" "))
-      //  //if (mdocIn.value.exists()) Def.taskDyn {
-      //  //  val parsed = sbt.complete.DefaultParsers.spaceDelimited("<arg>").parsed
-      //  //  println(parsed.mkString(" "))
-      //  //  println(mdocIn.value.toString)
-      //  //  (Compile / mdoc).toTask(parsed.mkString(" "))
-      //  //}
-      //  //else Def.task { () }
-      //}.inputTaskValue
     ) ++
     MdocPlugin.projectSettings.include(/*mdoc*/)
 }

@@ -2,7 +2,7 @@
 
 ## Higher-kinded type class that extends `Apply`; provides the `flatMap` method:
  - a `flatMap` method to transform monadic values in sequence
-   ```scala mdoc
+   ```scala
    def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
    ```
    e.g.
@@ -11,7 +11,7 @@
    //import cats.instances.option._
    
    val optionFlatMap = FlatMap[Option] // fetches the implicit instance
-   val anOption = optionFlatMap.pure(2) // returns an Option[Int]
+   val anOption = Option(2)
    val aTransformedOption = optionFlatMap.flatMap(anOption) { x =>
      if (x % 2 == 0) Option(x + 1) else None
    } // returns Some(3)
@@ -19,10 +19,11 @@
 
 ## `Monad` does not have its own (fundamental) new methods
    ```scala mdoc
+   import cats.Applicative
    trait Monad[F[_]] extends FlatMap[F] with Applicative[F] 
    ```
 ## `FlatMap` extends `Apply`, which in turn extends `Functor`...
-   ```scala mdoc
+   ```scala mdoc:nest
    trait Monad[F[_]] extends FlatMap[F] with Applicative[F] {
      // inherits `flatMap` from `FlatMap`
      // inherits `pure`  from `Applicative`

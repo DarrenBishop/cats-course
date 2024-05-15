@@ -2,7 +2,7 @@
 
 ## Higher-kinded type class that extends `Functor` and provides a `pure` method
  - a `pure` method to wrap (lift) a normal value into a contextual value
-   ```scala mdoc
+   ```scala
    def pure[A](value: A): F[A]
    ```
    e.g.

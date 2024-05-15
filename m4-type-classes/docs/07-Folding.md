@@ -2,7 +2,7 @@
 
 ## Higher-kinded type class ; provides _folding_ method:
  - a `foldLeft` method to combine elements in sequence
-   ```scala mdoc
+   ```scala
    def foldLeft[A, B](fa: F[A], b: B)(f: (B, A) => B): B
    ```
    e.g.
@@ -15,12 +15,12 @@
    val summedList = listFoldable.foldLeft(aList, 0) { (acc, x) => acc + x }
    ```
  - a `foldRight` method which is stack-safe, regardless of the container
-   ```scala mdoc
+   ```scala
    def foldRight[A, B](fa: F[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B]
    ```
    e.g.
    ```scala mdoc
-   import cats.Foldable
+   import cats.Eval
    //import cats.instances.vector._
    
    val vectorFoldable = Foldable[Vector] // fetches the implicit instance

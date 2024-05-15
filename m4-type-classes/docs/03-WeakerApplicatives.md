@@ -2,7 +2,7 @@
 
 ## Higher-kinded type class that extends `Functor` and `Semigroupal`; provides an `ap` method:
  - an `ap` method to apply a function in a context to a value in a context
-   ```scala mdoc
+   ```scala
    def ap[A, B](ff: F[A => B])(fa: F[A]): F[B]
    ```
    e.g.
@@ -15,6 +15,7 @@
 
 ## Convenient for extracting and combining tuples
    ```scala mdoc
+   def none[T]: Option[T] = None
    import cats.syntax.apply._ // extension methods from Apply
    val tupleOfOptions = (Option(1), Option(2), Option(3))
    val optionOfTuple = tupleOfOptions.tupled
