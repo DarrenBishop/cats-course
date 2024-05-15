@@ -42,6 +42,7 @@ lazy val `cats-course` = (project in file("."))
     //mdoc / aggregate := false,
   )
   .aggregate(
+    common,
     `m1-introduction`,
     `m2-abstract-math`,
     `m3-data-manipulation`,
@@ -50,47 +51,51 @@ lazy val `cats-course` = (project in file("."))
     docs
   )
 
+lazy val common = project
+  .settings(
+    scalacOptions ++= scalacOptionsTask.value,
+    scalacOptions += "-P:kind-projector:underscore-placeholders"
+  )
+
 lazy val `m1-introduction` = project
+  .dependsOn(common)
   .settings(
     scalacOptions ++= scalacOptionsTask.value
   )
 
 lazy val `m2-abstract-math` = project
-  .enablePlugins(MdocPlugin)
+  .dependsOn(common)
   .settings(
-    moduleName := "m2-abstract-math-docs",
-    scalacOptions ++= scalacOptionsTask.value
+    scalacOptions ++= scalacOptionsTask.value,
+    scalacOptions += "-P:kind-projector:underscore-placeholders"
   )
 
 lazy val `m3-data-manipulation` = project
+  .dependsOn(common)
   .settings(scalacOptions ++= scalacOptionsTask.value)
 
 lazy val `m4-type-classes` = project
-  .dependsOn(`m2-abstract-math`)
+  .dependsOn(common, `m2-abstract-math`)
   .settings(
     scalacOptions ++= scalacOptionsTask.value,
     scalacOptions += "-P:kind-projector:underscore-placeholders"
   )
 
 lazy val `m5-some-alien-bits` = project
-  .dependsOn(`m2-abstract-math`)
+  .dependsOn(common)
   .settings(
     scalacOptions ++= scalacOptionsTask.value,
     scalacOptions += "-P:kind-projector:underscore-placeholders"
   )
 
 lazy val docs = (project in file("cats-course-docs"))
+  .dependsOn(common)
   .dependsOn(`m1-introduction`, `m2-abstract-math`, `m3-data-manipulation`, `m4-type-classes`, `m5-some-alien-bits`)
   .settings(
     scalacOptions ++= scalacOptionsTask.value,
-    //mdocExtraArguments := Seq(
-    //  "--watch",
-    //  "--verbose true",
-    //  "--report-relative-paths",
-    //  "--clean-target true",
-    //  "--allow-code-fence-indented",
-    //  "--exclude **/.DS_Store",
-    //  "--exclude .DS_Store"
-    //),
+    mdocExtraArguments ++= Seq(
+      "--watch",
+      "--report-relative-paths"
+    ),
     mdocRoot := (ThisBuild / baseDirectory).value
   )
