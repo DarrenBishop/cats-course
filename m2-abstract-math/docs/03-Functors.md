@@ -12,9 +12,9 @@
  - a `map` extension method
    ```scala mdoc
    import cats.syntax.functor._ // adds the map extension method
-   import absmath.Functors.{Tree, Branch, Leaf}
+   import rtj.absmath.Functors.{Tree, Branch, Leaf}
    val tree: Tree[Int] = Branch(40, Branch(5, Leaf(10), Leaf(30)), Leaf(20))
-   implicit val treeFunctor: Functor[Tree] = absmath.Functors.TreeFunctor // provide an implicit instance
+   implicit val treeFunctor: Functor[Tree] = Functors.TreeFunctor // provide an implicit instance
    val processedTree = tree.map(_ * 2) // returns Branch(80, Branch(10, Leaf(20), Leaf(60)), Leaf(40))
    ```
 

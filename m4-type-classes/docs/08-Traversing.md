@@ -1,5 +1,10 @@
 # Traverse
 
+```scala mdoc:invisible
+import rtj._
+implicit val ec: EC = EC()
+```
+
 ## Higher-kinded type class extending `Foldable` and `Functor`; provides _nested context inversion_ methods:
  - a `traverse` method to apply a function producing a contextual value, to a value from a different context
    ```scala
@@ -21,7 +26,6 @@
    ```
    e.g.
    ```scala mdoc
-   import typeclasses._
    implicit val ec: EC = EC()
    val aListOfFutures = aList.map(Future(_))
    val aFutureOfList = ready(listTraverse.sequence(aListOfFutures))

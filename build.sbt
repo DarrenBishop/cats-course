@@ -36,7 +36,6 @@ lazy val scalacOptionsTask = Def.task { CrossVersion.partialVersion(scalaVersion
 }}
 
 lazy val `cats-course` = (project in file("."))
-  .disablePlugins(MdocPlugin, Mdoc)
   .settings(
     publish / skip := true,
     //mdoc / aggregate := false,

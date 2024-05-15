@@ -7,15 +7,15 @@
    ```
    e.g.
    ```scala mdoc
-   import cats.Applicative
-   //import cats.instances.option._ // implicit Applicative[Option]
-   val optionApplicative = Applicative[Option]
-   val aMappedOption = optionApplicative.ap(Some((x: Int) => x + 1))(Some(2))
+   import cats.Apply
+   //import cats.instances.option._ // implicit Apply[Option]
+   val optionApply = Apply[Option]
+   val aMappedOption = optionApply.ap(Some((x: Int) => x + 1))(Some(2))
    ```
 
 ## Convenient for extracting and combining tuples
    ```scala mdoc
-   def none[T]: Option[T] = None
+   import rtj._
    import cats.syntax.apply._ // extension methods from Apply
    val tupleOfOptions = (Option(1), Option(2), Option(3))
    val optionOfTuple = tupleOfOptions.tupled

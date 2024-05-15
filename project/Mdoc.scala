@@ -4,6 +4,7 @@ import mdoc.{DocusaurusPlugin, MdocPlugin}
 import sbt.plugins.JvmPlugin
 import shapeless.<:!<
 
+
 object Mdoc extends AutoPlugin {
 
   override def requires: Plugins = JvmPlugin
@@ -45,12 +46,14 @@ object Mdoc extends AutoPlugin {
     names(name.value) || names(baseDirectory.value.getName)
   }
 
+  def rootDocs = Def.setting { (LocalRootProject / baseDirectory).value / "docs" }
+
   override def projectSettings: Settings =
-    MdocPlugin.projectSettings.exclude(/*mdoc*/) ++
-    //DocusaurusPlugin.projectSettings ++
+    MdocPlugin.projectSettings ++
+    DocusaurusPlugin.projectSettings ++
     Seq(
       mdocIn := {
-        if (isProjectRootDocs.value) (LocalRootProject / baseDirectory).value / "docs"
+        if (isProjectRootDocs.value) rootDocs.value
         else baseDirectory.value / "docs"
       },
       //mdocOut := {
@@ -83,6 +86,5 @@ object Mdoc extends AutoPlugin {
       //    )
       //  else Nil
       //},
-    ) ++
-    MdocPlugin.projectSettings.include(/*mdoc*/)
+    )
 }

@@ -28,7 +28,6 @@
    val summedVector = vectorFoldable.foldRight(aVector, Eval.now(0)) { (x, acc) => acc.map(_ + x) }.value
    ```
 
-
 ## Useful for general APIs applicable to any foldable container
 
 ## Extension methods applicable to any foldable container
